@@ -5,7 +5,7 @@ create table company (
     login varchar not null,
     password varchar not null,
     address varchar,
-    service_type_id int references service_type(id) on delete set null,
+    service_type_id varchar,
     created_at timestamp default current_timestamp,
     updated_at timestamp
 );
@@ -49,13 +49,13 @@ create table client (
     updated_at timestamp
 );
 
-create table order (
+create table orders (
     guid uuid not null primary key,
     employee_id uuid references employee(guid),
     services uuid[],
     start_time timestamp,
     end_time timestamp,
-    create_at timestamp current_timestamp,
+    create_at timestamp default current_timestamp,
     updated_at timestamp
 );
 

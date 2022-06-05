@@ -41,6 +41,13 @@ func New(opt *RouterOptions) *gin.Engine {
 
 	apiV1 := router.Group("/v1")
 
+	{
+		apiV1.POST("/company-service", handlerV1.CompanyServcieCreate)
+		apiV1.PUT("/company-service/:guid", handlerV1.CompanyServiceUpdate)
+		apiV1.GET("/company-service", handlerV1.ListCompanyService)
+		apiV1.DELETE("company-service/:guid", handlerV1.CompanyServiceDelete)
+	}
+
 	url := ginSwagger.URL("swagger/doc.json")
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
 
