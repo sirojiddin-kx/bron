@@ -5,9 +5,9 @@ import (
 
 	_ "github.com/jackc/pgx/v4/stdlib"
 	"github.com/sirojiddin-kx/bron/api"
-	"github.com/sirojiddin-kx/config"
-	"github.com/sirojiddin-kx/pkg/loggger"
-	"github.com/sirojiddin-kx/storage"
+	"github.com/sirojiddin-kx/bron/config"
+	"github.com/sirojiddin-kx/bron/pkg/logger"
+	"github.com/sirojiddin-kx/bron/storage"
 	"github.com/jmoiron/sqlx"
 )
 

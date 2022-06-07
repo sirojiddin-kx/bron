@@ -5,10 +5,30 @@ create table company (
     login varchar not null,
     password varchar not null,
     address varchar,
-    service_type_id varchar,
+    service_type varchar,
     created_at timestamp default current_timestamp,
     updated_at timestamp
 );
+
+INSERT INTO company(
+    guid, 
+    name, 
+    logo, 
+    login, 
+    password, 
+    address, 
+    service_type_id, 
+    created_at
+    ) values (
+        'b7ab5845-70e9-4632-84eb-80b59319cf8d',
+        'Tapor',
+        'loge',
+        'tapor_admin',
+        'tapor_admin1234',
+        'Shevchenko ko''chasi',
+        'barber shop',
+        current_timestamp
+        );
 
 create table company_service (  
     guid uuid not null primary key,
@@ -59,9 +79,11 @@ create table orders (
     updated_at timestamp
 );
 
+alter table employee
+add column position varchar(32);
 
-
-
+alter table client
+add column phone_number varchar(20);
 
 
 

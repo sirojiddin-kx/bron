@@ -7,53 +7,54 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/sirojiddin-kx/bron/api/models"
 	"github.com/sirojiddin-kx/bron/pkg/logger"
+	//"github.com/sirojiddin-kx/bron/pkg/logger"
 )
 
-//@Router /v1/company-service [post]
-//@Summary Create Company Service
+//@Router /v1/employee [post]
+//@Summary Create Employee
 //@Description API for create company-service
-//@Tags company-service
+//@Tags employee
 //@Accept json
 //@Produce json
-//@Param employee body models.CompanyServiceCreate true "company-service"
+//@Param employee body models.EmployeeCreate true "employee"
 //@Success 200 {object} models.SuccessModel
 //@Failure 400 {object} models.ResponseError
 //@Failure 500 {object} models.ResponseError
-func (h handlerV1) CompanyServcieCreate(c *gin.Context) {
-	var companyService models.CompanyServiceCreate
+func (h handlerV1) EmployeeCreate(c *gin.Context) {
+	var employee models.EmployeeCreate
 
-	err := c.ShouldBind(&companyService)
+	err := c.ShouldBindJSON(&employee)
 	if err != nil {
 		h.HandleErrorResponse(c, http.StatusBadRequest, "bad request", err)
 		return
 	}
 
-	err = h.storage.CompanyServiceRepo().Create(companyService)
+	err = h.storage.EmployeeRepo().Create(employee)
 	if err != nil {
 		h.HandleErrorResponse(c, http.StatusInternalServerError, "database error", err)
 		return
 	}
 
-	h.HandleSuccessResponse(c, 201, "company service created successfully", "")
+	h.HandleSuccessResponse(c, 201, "employee created successfully", "")
 }
 
-
-//@Router /v1/company-service [get]
-//@Summary List Company Services
-//@Description API for get list company_services
-//@Tags company-service
+//@Router /v1/employee [get]
+//@Summary List Employee
+//@Description API for get list employeeslsls
+//@Tags employee
 //@Accept json
 //@Produce json
 //@Param company_id query string true "company_id"
 //@Param limit query string false "limit"
 //@Param page query string false "page"
-//@Success 200 {object} models.CompanyServices
+//@Success 200 {object} models.EmployeeList
 //@Failure 400 {object} models.ResponseError
 //@Failure 500 {object} models.ResponseError
-func (h handlerV1) ListCompanyService(c *gin.Context) {
+func (h handlerV1) ListEmployee(c *gin.Context) {
 	var (
 		count int32
 	)
+
 	companyID := c.DefaultQuery("company_id", "")
 	limit, err := ParseQueryParam(c, "limit", "10")
 	if err != nil {
@@ -66,13 +67,13 @@ func (h handlerV1) ListCompanyService(c *gin.Context) {
 		h.HandleErrorResponse(c, http.StatusBadRequest, "can't parse page", err)
 	}
 
-	resp, err := h.storage.CompanyServiceRepo().GetCompanyServices(companyID, limit, page)
+	resp, err := h.storage.EmployeeRepo().GetEmployeeList(companyID, limit, page)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, models.ResponseError{
 			Code: models.ErrorCodeInternal,
 			Message: err.Error(),
 		})
-		h.log.Error("database err", logger.Error(err))
+		h.log.Error("database error", logger.Error(err))
 		return
 	}
 
@@ -81,8 +82,11 @@ func (h handlerV1) ListCompanyService(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"services": resp,
+		"employees": resp,
 		"count": count,
 	})
 }
+
+
+
 

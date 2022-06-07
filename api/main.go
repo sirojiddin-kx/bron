@@ -42,10 +42,14 @@ func New(opt *RouterOptions) *gin.Engine {
 	apiV1 := router.Group("/v1")
 
 	{
+		// Company Service
 		apiV1.POST("/company-service", handlerV1.CompanyServcieCreate)
-		apiV1.PUT("/company-service/:guid", handlerV1.CompanyServiceUpdate)
 		apiV1.GET("/company-service", handlerV1.ListCompanyService)
-		apiV1.DELETE("company-service/:guid", handlerV1.CompanyServiceDelete)
+
+		// Employee
+		apiV1.POST("/employee", handlerV1.EmployeeCreate)
+		apiV1.GET("/employee", handlerV1.ListEmployee)
+	//	apiV1.GET("/employee/:guid", handlerV1.GetEmployeeByID)
 	}
 
 	url := ginSwagger.URL("swagger/doc.json")

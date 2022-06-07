@@ -13,6 +13,7 @@ type CompanyService struct {
 	Duration  int32  `json:"duration"`
 	Price     int32  `json:"price"`
 	CompanyID string `json:"company_id"`
+	Count     int32 `json:"count" swaggerignore:"true"`
 }
 
 type CompanyServices struct {
