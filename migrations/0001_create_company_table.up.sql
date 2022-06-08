@@ -72,6 +72,7 @@ create table client (
 create table orders (
     guid uuid not null primary key,
     employee_id uuid references employee(guid),
+    client_id uuid references client(guid),
     services uuid[],
     start_time timestamp,
     end_time timestamp,
@@ -89,5 +90,12 @@ add column phone_number varchar(20);
 alter table client
 add column company_id uuid;
 
+alter table orders
+add column company_id uuid;
 
+alter table orders
+add column order_date date;
+
+alter table orders
+add column total_price integer;
 

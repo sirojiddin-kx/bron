@@ -43,6 +43,23 @@ definitions:
           $ref: '#/definitions/models.CompanyService'
         type: array
     type: object
+  models.CreateOrder:
+    properties:
+      client_id:
+        type: string
+      company_id:
+        type: string
+      employee_id:
+        type: string
+      order_date:
+        type: string
+      services:
+        items:
+          type: string
+        type: array
+      start_time:
+        type: string
+    type: object
   models.Employee:
     properties:
       company_id:
@@ -87,6 +104,38 @@ definitions:
         items:
           $ref: '#/definitions/models.Employee'
         type: array
+    type: object
+  models.ListOrders:
+    properties:
+      count:
+        type: integer
+      orders:
+        items:
+          $ref: '#/definitions/models.Order'
+        type: array
+    type: object
+  models.Order:
+    properties:
+      client_contact:
+        type: string
+      client_fullname:
+        type: string
+      employee_fullname:
+        type: string
+      end_time:
+        type: string
+      order_date:
+        type: string
+      order_id:
+        type: string
+      services:
+        items:
+          type: string
+        type: array
+      start_time:
+        type: string
+      total_price:
+        type: string
     type: object
   models.ResponseError:
     properties:
@@ -339,4 +388,71 @@ paths:
       summary: Get Employee By ID
       tags:
       - employee
+  /v1/order:
+    post:
+      consumes:
+      - application/json
+      description: API for creating orders
+      parameters:
+      - description: order
+        in: body
+        name: order
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateOrder'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SuccessModel'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Create Order
+      tags:
+      - order
+  /v1/orders:
+    get:
+      consumes:
+      - application/json
+      description: API for get list orders
+      parameters:
+      - description: company_id
+        in: query
+        name: company_id
+        required: true
+        type: string
+      - description: limit
+        in: query
+        name: limit
+        type: string
+      - description: page
+        in: query
+        name: page
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ListOrders'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: List Orders
+      tags:
+      - order
 swagger: "2.0"

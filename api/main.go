@@ -54,6 +54,10 @@ func New(opt *RouterOptions) *gin.Engine {
 		// Client 
 		apiV1.POST("/client", handlerV1.ClientCreate)
 		apiV1.GET("/clients", handlerV1.ListClients)
+
+		// Orders
+		apiV1.POST("/order", handlerV1.CreateOrder)
+		apiV1.GET("/orders", handlerV1.ListOrders)
 	}
 
 	url := ginSwagger.URL("swagger/doc.json")
