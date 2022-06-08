@@ -12,7 +12,7 @@ import (
 
 //@Router /v1/employee [post]
 //@Summary Create Employee
-//@Description API for create company-service
+//@Description API for creating client
 //@Tags employee
 //@Accept json
 //@Produce json
@@ -87,6 +87,36 @@ func (h handlerV1) ListEmployee(c *gin.Context) {
 	})
 }
 
+
+//@Router /v1/employee/{employee_id} [get]
+//@Summary Get Employee By ID
+//@Description API for getting single Employee
+//@Tags employee
+//@Accept json
+//@Produce json
+//@Param company_id query string true "company_id"
+//@Param employee_id path string true "guid"
+//@Success 200 {object} models.EmployeeList
+//@Failure 400 {object} models.ResponseError
+//@Failure 500 {object} models.ResponseError
+func (h handlerV1) GetEmployeeByID(c *gin.Context) {
+	var (
+		employeeId = c.Param("employee_id")
+		companyID = c.DefaultQuery("company_id", "")
+	)
+
+	resp, err := h.storage.EmployeeRepo().GetEmployeeById(companyID, employeeId)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, models.ResponseError{
+			Code: models.ErrorCodeInternal,
+			Message: err.Error(),
+		})
+		h.log.Error("database err", logger.Error(err))
+		return
+	}
+
+	c.JSON(http.StatusOK, resp)
+}
 
 
 

@@ -86,5 +86,8 @@ alter table client
 add column phone_number varchar(20);
 
 
+alter table client
+add column company_id uuid;
+
 
 

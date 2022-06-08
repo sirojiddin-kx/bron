@@ -112,3 +112,36 @@ func (c employeeService) GetEmployeeList(companyID string, limit, page int32) (r
 
 	return
 }
+
+func (c employeeService) GetEmployeeById(companyId, employeeId string) (resp models.Employee, err error) {
+	query := `
+		SELECT
+			guid,
+			first_name,
+			last_name,
+			description,
+			start_time,
+			end_time,
+			position,
+			company_id
+		FROM employee
+		WHERE guid=$1 and company_id=$2
+	`
+
+	err = c.db.QueryRow(query, employeeId, companyId).Scan(
+		&resp.ID,
+		&resp.FirstName,
+		&resp.LastName,
+		&resp.Description,
+		&resp.GraphStartTime,
+		&resp.GraphEndTime,
+		&resp.Position,
+		&resp.CompanyId,
+	)
+
+	if err != nil {
+		return models.Employee{}, err
+	}
+
+	return
+}

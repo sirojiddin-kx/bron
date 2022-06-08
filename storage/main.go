@@ -9,12 +9,14 @@ import (
 type StorageI interface {
 	CompanyServiceRepo() repo.CompanyServiceRepoI
 	EmployeeRepo() repo.EmployeeRepoI
+	ClientRepo() repo.ClientRepoI
 }
 
 type storagePG struct {
 	db             *sqlx.DB
 	companyService repo.CompanyServiceRepoI
 	employee       repo.EmployeeRepoI
+	client         repo.ClientRepoI
 }
 
 func NewStoragePG(db *sqlx.DB) StorageI {
@@ -22,6 +24,7 @@ func NewStoragePG(db *sqlx.DB) StorageI {
 		db:             db,
 		companyService: postgres.NewCompanyServcieRepo(db),
 		employee:       postgres.NewEmployeeRepo(db),
+		client:         postgres.NewClientRepo(db),
 	}
 }
 
@@ -30,6 +33,9 @@ func (s storagePG) CompanyServiceRepo() repo.CompanyServiceRepoI {
 }
 
 func (s storagePG) EmployeeRepo() repo.EmployeeRepoI {
-
 	return s.employee
+}
+
+func (s storagePG) ClientRepo() repo.ClientRepoI {
+	return s.client
 }
