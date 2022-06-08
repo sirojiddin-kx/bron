@@ -17,7 +17,7 @@ INSERT INTO company(
     login, 
     password, 
     address, 
-    service_type_id, 
+    service_type, 
     created_at
     ) values (
         'b7ab5845-70e9-4632-84eb-80b59319cf8d',
